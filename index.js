@@ -1,9 +1,17 @@
 require("dotenv/config")
 const express = require('express')
-const app = express()
-const port = 3000
-const mongoose = require ("mongoose")
-const connect = require('./config/db')
+const app = express();
+const port = 3000;
+const mongoose = require ("mongoose");
+const connect = require('./config/db');
+
+const userRouter = require('./routes/userRoute');
+
+// middleware
+app.use(express.json());
+
+// API 
+app.use('/api/v1', userRouter);
 
 
 
@@ -21,6 +29,18 @@ try {
 .catch((error)=>{
     console.log("invalid database connection...!", error);
 })
+
+//
+
+app.get("/", function (req, res){
+    res.send("Hello World");
+});
+
+app.use((req,res)=>{
+    res.status(404).send("route not found")
+})
+
+
 
 
 

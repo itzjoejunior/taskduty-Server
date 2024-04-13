@@ -37,12 +37,67 @@ const getAllTasksByUser = async(req,res)=>{
    }
 
 
+   // Params ftn for getting a single task created by a user
 
 
+   const singleTask = async (req,res)=> {
+    const {taskId} = req.params;
+    const {userId} = req.user;
+
+    try {
+      const task = await TASKS.findOne({
+        _id: taskId,
+        createdBy: userId
+      }).populate("createdBy");
+      res.status(200).json({ success: true, task});
+    } catch (error) {
+      res.status(500).json(error)
+      
+    }
+
+   }
+
+
+   // delete ftn, D -- for delete in CRUD Operation
+
+
+   const deleteTask = async (req,res)=>{
+    const {taskId}=req.params;
+    const {userId}=req.user;
+
+    try {
+     await TASKS.findOneAndDelete({_id:taskId, 
+      createdBy: userId});
+      res.status(200).json({success:true, massage: "Deleted Successfully!"})
+    } catch (error) {
+      res.status(500).json(error)
+    }
+   }
+
+   // update FontFace, U -- for  Update in CRUD operation
+
+   const updateTask = async(req,res)=>{
+    const {taskId}=req.params;
+    const {userId}=req.user;
+
+    try {
+      const task = await TASKS.findOneAndUpdate
+      ({_id:taskId , createdBy:userId}, req.body,{new:true,
+        runValidators:true}).populate('createdBy');
+        res.status(200).json({success:true, task,
+        message:"Updated successfully"})
+    } catch (error) {
+      res.status(500).json(error)
+    }
+
+   }
 
 
 
 module.exports = {
     createTask,
-    getAllTasksByUser
-};
+    getAllTasksByUser,
+    singleTask,
+    deleteTask,
+    updateTask
+}

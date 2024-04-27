@@ -1,3 +1,4 @@
+
 const userModel = require("../model/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -24,12 +25,11 @@ const registration = async (req, res) => {
         registeration,
       });
   } catch (error) {
-    if ((error.code = 11000)) {
-      res
-        .status(400)
-        .json({ success: false, message: "Email already exists." });
-      return;
-    }
+    // if ((error.code = 11000)) {
+    //   res.status(400)
+    //     .json({ success: false, message: "Email already exists." });
+    //   return;
+    // }
     res.status(500).json({ error });
     console.log(error.message);
   }

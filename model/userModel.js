@@ -8,7 +8,7 @@ const userSchema = new Schema ({
     name:{
         type:String,
         required: [true, 'Please provide a name'],
-        minlength: [4, 'min length for usernmae is 4']
+        minlength: [4, 'min length for usernmae is 4'],
     },
     email:{
         type:String,
@@ -19,8 +19,8 @@ const userSchema = new Schema ({
     password:{
         type:String,
         required: [true, "Please enter your password"],
-        minlength: [8,'password min length must be 8']
-    }
+        minlength: [8,'password min length must be 8'],
+    },
 },{timestamps:true}); //this will add createdAt and updatedAt to
 
 
@@ -36,7 +36,7 @@ userSchema.pre("save", async function(next){
 
 userSchema.methods.comparePassword = async function(userPassword){
     const isCorrect = await bcrypt.compare(userPassword,this.password);
-    return isCorrect
+    return isCorrect
 }
 
 // generate token
